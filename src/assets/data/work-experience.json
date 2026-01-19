@@ -354,5 +354,55 @@
         "product": "SIGIL Editor (SVG scene editor)",
         "productSite": "https://github.com/SpiritUrban/sigil",
         "aboutProduct": "Lightweight browser-based SVG scene editor for quick layout, zone markup, and export to HTML."
+    },
+    {
+        "year": "2026",
+        "years": "2026",
+        "title": "Full Stack Developer",
+        "company": "Own",
+        "technologies": "TypeScript, React, Vite, MUI, JSON, NodeJS",
+        "product": "NodeX DSL (JSON-driven UI DSL)",
+        "productSite": "https://github.com/SpiritUrban/nodex-dsl",
+        "aboutProduct": "JSON-driven DSL and editor for describing UI layouts with React-based rendering."
+    },
+    {
+        "year": "2026",
+        "years": "2026",
+        "title": "Full Stack Developer",
+        "company": "Own",
+        "technologies": "TypeScript, PixiJS, esbuild",
+        "product": "Organic Dominion (RTS prototype)",
+        "productSite": "https://github.com/SpiritUrban/organic-dominion-dev",
+        "aboutProduct": "RTS prototype focused on organic growth mechanics, strategy systems, and progression."
+    },
+    {
+        "year": "2026",
+        "years": "2026",
+        "title": "Full Stack Developer",
+        "company": "Own",
+        "technologies": "React, Vite, Socket.IO, NodeJS, Express, SQLite, Cheerio",
+        "product": "Parser (job parsing dashboard)",
+        "productSite": "https://github.com/SpiritUrban/parser",
+        "aboutProduct": "Full-stack parser with real-time updates for collecting job listings, details, and salary history."
+    },
+    {
+        "year": "2025",
+        "years": "2025",
+        "title": "Backend Developer",
+        "company": "Own",
+        "technologies": "Python, FastAPI, Telethon, Uvicorn",
+        "product": "MTProto-Proxy-API",
+        "productSite": "https://github.com/SpiritUrban/MTProto-Proxy-API",
+        "aboutProduct": "API wrapper for Telegram via MTProto (dialogs, messages, account info) with FastAPI."
+    },
+    {
+        "year": "2025",
+        "years": "2025",
+        "title": "Frontend Developer",
+        "company": "Own",
+        "technologies": "Next.js, React, Redux Toolkit, Tailwind CSS",
+        "product": "Showcase (UI catalog)",
+        "productSite": "https://github.com/SpiritUrban/showcase",
+        "aboutProduct": "UI showcase built with Next.js and Tailwind, using reusable components and state management."
     }
 ]
