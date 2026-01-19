@@ -344,5 +344,15 @@
         "product": "Keywave (JSON-driven animation editor & player)",
         "productSite": "https://github.com/SpiritUrban/keywave",
         "aboutProduct": "JSON-driven 2D animation editor with SVG player for keyframe-based motion and exportable demos."
+    },
+    {
+        "year": "2026",
+        "years": "2026",
+        "title": "Full Stack Developer",
+        "company": "Own",
+        "technologies": "JavaScript, SVG, JSON, esbuild, NodeJS",
+        "product": "SIGIL Editor (SVG scene editor)",
+        "productSite": "https://github.com/SpiritUrban/sigil",
+        "aboutProduct": "Lightweight browser-based SVG scene editor for quick layout, zone markup, and export to HTML."
     }
 ]
