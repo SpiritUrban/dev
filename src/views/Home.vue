@@ -375,17 +375,31 @@ function init() {
     particle.scale.x = particle.scale.y = scale;
     const hue = 185 + Math.random() * 30;
     const light = 55 + Math.random() * 20;
-    particle.material.color.setStyle(`hsl(${hue}, 90%, ${light}%)`);
+    particle.material.color.setHSL(hue / 360, 0.9, light / 100);
     scene.add(particle);
     geometry.vertices.push(particle.position);
   }
 
   // lines
-  lineMesh = new THREE.Line(geometry, new THREE.LineBasicMaterial({
-    color: 0x8debdc,
-    opacity: 0.35,
-    transparent: true,
-  }));
+  const lineMaterial = THREE.LineDashedMaterial
+    ? new THREE.LineDashedMaterial({
+      color: 0x8debdc,
+      opacity: 0.35,
+      transparent: true,
+      dashSize: 6,
+      gapSize: 4,
+    })
+    : new THREE.LineBasicMaterial({
+      color: 0x8debdc,
+      opacity: 0.35,
+      transparent: true,
+    });
+  lineMesh = new THREE.Line(geometry, lineMaterial);
+  if (lineMesh.computeLineDistances) {
+    lineMesh.computeLineDistances();
+  } else if (geometry.computeLineDistances) {
+    geometry.computeLineDistances();
+  }
   scene.add(lineMesh);
 
   document.addEventListener('mousemove', onDocumentMouseMove, false);
