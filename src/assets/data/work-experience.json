@@ -324,5 +324,15 @@
         "productSite":  "https://spiriturban.github.io/experience/",
         "aboutProduct":  "Интерактивный сайт-портфолио с анимациями и навигацией. Создан с активным использованием ИИ — первый полноценный опыт разработки сайта с минимальным объёмом ручной работы. Реализован на React и TypeScript.",
 		"img": "crystal.jpg"
+    },
+    {
+        "year": "2025",
+        "years": "2025",
+        "title": "Full Stack Developer",
+        "company": "Own",
+        "technologies": "TypeScript, React, Vite, NodeJS, SQLite, Turso, Telegram Mini App",
+        "product": "Cheknis (Telegram Mini App)",
+        "productSite": "https://github.com/SpiritUrban/cheknis",
+        "aboutProduct": "Telegram Mini App for fast self-calibration and current orientation."
     }
 ]
