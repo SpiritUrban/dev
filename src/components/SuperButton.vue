@@ -117,12 +117,10 @@
 
 <script setup>
 
-import { onMounted, defineProps } from 'vue';
+import { onMounted } from 'vue';
 const props = defineProps(['href'])
 
 onMounted(() => {
-  // if (props)
-  console.log('sdfsdfd', props.href)
   startButton()
 })
 
@@ -144,7 +142,10 @@ function startButton() {
 }
 
 function clickBtn(){
-  if (props.href) window.open(props.href, '_blank')
+  if (props.href) {
+    const newWindow = window.open(props.href, '_blank', 'noopener,noreferrer')
+    if (newWindow) newWindow.opener = null
+  }
 }
 
 </script>
@@ -328,7 +329,7 @@ button:before {
 
 button:is(:hover, :focus-visible)~ :is(.bodydrop, .particle-pen) {
   --active: 1;
-  --play-state: runnin;
+  --play-state: running;
 }
 
 .bodydrop {

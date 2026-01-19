@@ -107,7 +107,7 @@
 
         <!-- {{ mobile }} {{ name }} -->
 
-        <v-timeline :side="(name == 'xs' || name == 'sm') ? 'end' : 'undefined'" align="start">
+        <v-timeline :side="(name === 'xs' || name === 'sm') ? 'end' : undefined" align="start">
           <v-timeline-item v-for="(item, i) in workExperience" :key="i" :dot-color="'#d2691e'" size="small">
             <template v-slot:opposite>
               <div :class="`pt-1 headline font-weight-bold text-green`" v-text="item.year"></div>
@@ -124,7 +124,8 @@
                     <td>Company:</td>
                     <td>
                       <b>{{ item.company }}</b> &nbsp;
-                      <v-btn v-if="item.companySite" icon :href="item.companySite" target="_blank" size="x-small"
+                      <v-btn v-if="item.companySite" icon :href="item.companySite" target="_blank"
+                        rel="noopener noreferrer" size="x-small"
                         variant="outlined">
                         <v-icon icon="mdi-link"></v-icon>
                         &nbsp; Go to site
@@ -141,7 +142,7 @@
                     <td>Additional:</td>
                     <td>
                       <v-btn v-for="(item, i) in item.companyAdditionalSources" :key="i" icon :href="item"
-                        target="_blank" size="x-small" variant="outlined">
+                        target="_blank" rel="noopener noreferrer" size="x-small" variant="outlined">
                         <v-icon icon="mdi-link"></v-icon>
                         &nbsp; {{ i + 1 }}
                       </v-btn>
@@ -151,7 +152,8 @@
                     <td>Product:</td>
                     <td>
                       <p class="major-2">{{ item.product }}</p> &nbsp;
-                      <v-btn v-if="item.productSite" icon :href="item.productSite" target="_blank" size="x-small"
+                      <v-btn v-if="item.productSite" icon :href="item.productSite" target="_blank"
+                        rel="noopener noreferrer" size="x-small"
                         variant="outlined">
                         <v-icon icon="mdi-link"></v-icon>
                         Go to site
@@ -169,7 +171,7 @@
 
               <div>
                 <v-chip size="small" class="ma-2" v-for="(unit, index) of item.technologies.split(',')"
-                  :key="`${index}-${unit.title}`">
+                  :key="`${index}-${unit}`">
                   {{ unit }}
                 </v-chip>
               </div>
@@ -223,7 +225,8 @@
               <tbody>
                 <tr v-for="(item, index2) of group.data" :key="`${index2}-${group.type}`">
                   <td>
-                    <a :href="item.link" :class="item.shutdowned ? 'shutdowned' : 'an-1'" target="_blank">
+                    <a :href="item.link" :class="item.shutdowned ? 'shutdowned' : 'an-1'" target="_blank"
+                      rel="noopener noreferrer">
                       <template v-if="group.type === 'Books'">
                         <div class="book-title">{{ item.title.split(' (')[0] }}</div>
                         <div class="book-series" v-if="item.title.includes('(')">
@@ -260,20 +263,28 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'HomeView',
+}
+</script>
+
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, onBeforeUnmount, ref } from 'vue';
 import { useDisplay } from 'vuetify';
 import SuperButton from '@/components/SuperButton.vue'
-import workExperience from '@/assets/data/work-experience.json';
+import _workExperience from '@/assets/data/work-experience.json';
 import personalSkills from '@/assets/data/personal-skills.json';
 import _works from '@/assets/data/works.json';
-workExperience.reverse()
+const workExperience = _workExperience.slice().reverse()
 const works = ref(_works);
 
-const { mobile, name } = useDisplay()
+const { name } = useDisplay()
 
 onMounted(() => {
-  console.log(mobile.value, name.value) // false
+  if (init()) {
+    animate()
+  }
 })
 
 function detailsHover(i, i2) {
@@ -287,27 +298,40 @@ function detailsLeave(i, i2) {
 
 
 const THREE = window.THREE;
-var mouseX = 0, mouseY = 0,
+let mouseX = 0;
+let mouseY = 0;
 
-  windowHalfX = window.innerWidth / 2,
-  windowHalfY = window.innerHeight / 2,
+let windowHalfX = window.innerWidth / 2;
+let windowHalfY = window.innerHeight / 2;
 
-  SEPARATION = 200,
-  AMOUNTX = 10,
-  AMOUNTY = 10,
+let camera;
+let scene;
+let renderer;
+let containerEl;
+let animationFrameId;
 
-  camera, scene, renderer;
-
-init();
-animate();
+onBeforeUnmount(() => {
+  if (animationFrameId != null) {
+    cancelAnimationFrame(animationFrameId)
+  }
+  document.removeEventListener('mousemove', onDocumentMouseMove, false)
+  document.removeEventListener('touchstart', onDocumentTouchStart, false)
+  document.removeEventListener('touchmove', onDocumentTouchMove, false)
+  window.removeEventListener('resize', onWindowResize, false)
+  if (containerEl && containerEl.parentNode) {
+    containerEl.parentNode.removeChild(containerEl)
+  }
+})
 
 function init() {
+  if (!THREE) return
+  const bg = document.querySelector('#bg')
+  if (!bg) return
 
-  var container, separation = 100, amountX = 50, amountY = 50,
-    particles, particle;
+  let particle;
 
-  container = document.createElement('div');
-  document.querySelector('#bg').appendChild(container);
+  containerEl = document.createElement('div');
+  bg.appendChild(containerEl);
 
   camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
   camera.position.z = 100;
@@ -315,12 +339,12 @@ function init() {
   renderer = new THREE.CanvasRenderer();
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  container.appendChild(renderer.domElement);
+  containerEl.appendChild(renderer.domElement);
 
   // particles
 
-  var PI2 = Math.PI * 2;
-  var material = new THREE.SpriteCanvasMaterial({
+  const PI2 = Math.PI * 2;
+  const material = new THREE.SpriteCanvasMaterial({
     color: 0xffffff,
     program: function (context) {
       context.beginPath();
@@ -329,7 +353,7 @@ function init() {
     }
   });
 
-  var geometry = new THREE.Geometry();
+  const geometry = new THREE.Geometry();
 
   for (var i = 0; i < 100; i++) {
     particle = new THREE.Sprite(material);
@@ -344,7 +368,7 @@ function init() {
   }
 
   // lines
-  var line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5 }));
+  const line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5 }));
   scene.add(line);
 
   document.addEventListener('mousemove', onDocumentMouseMove, false);
@@ -352,6 +376,7 @@ function init() {
   document.addEventListener('touchmove', onDocumentTouchMove, false);
   //
   window.addEventListener('resize', onWindowResize, false);
+  return true
 }
 
 function onWindowResize() {
@@ -384,7 +409,8 @@ function onDocumentTouchMove(event) {
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  if (!renderer || !camera || !scene) return
+  animationFrameId = requestAnimationFrame(animate);
   render();
 }
 

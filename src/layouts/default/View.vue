@@ -4,6 +4,12 @@
   </v-main>
 </template>
 
+<script>
+export default {
+  name: 'DefaultView',
+}
+</script>
+
 <script setup>
   //
 </script>
