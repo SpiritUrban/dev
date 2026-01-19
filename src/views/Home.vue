@@ -110,7 +110,10 @@
         <v-timeline :side="(name === 'xs' || name === 'sm') ? 'end' : undefined" align="start">
           <v-timeline-item v-for="(item, i) in workExperience" :key="i" :dot-color="'#d2691e'" size="small">
             <template v-slot:opposite>
-              <div :class="`pt-1 headline font-weight-bold text-green`" v-text="item.year"></div>
+              <div class="timeline-opposite">
+                <img v-if="item.img" class="timeline-img" :src="getWorkImg(item.img)" :alt="item.title" />
+                <div v-else :class="`pt-1 headline font-weight-bold text-green`" v-text="item.year"></div>
+              </div>
               <!-- <img src="../assets/img/I.png"> -->
             </template>
             <div>
@@ -280,6 +283,10 @@ const workExperience = _workExperience.slice().reverse()
 const works = ref(_works);
 
 const { name } = useDisplay()
+
+function getWorkImg(fileName) {
+  return new URL(`../assets/img/${fileName}`, import.meta.url).href
+}
 
 onMounted(() => {
   if (init()) {
@@ -510,6 +517,33 @@ img {
   margin-top: .7rem !important;
   margin-left: 0 !important;
   color: #cdbfb0 !important;
+}
+
+.timeline-opposite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 420px;
+  margin: auto 0;
+  width: 100%;
+}
+
+.timeline-img {
+  width: 420px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  border: 1px solid rgb(141 235 220 / 40%);
+  box-shadow: 0 8px 22px rgb(0 0 0 / 35%);
+}
+
+.v-timeline-item__opposite {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 }
 
 button.v-btn--icon,
