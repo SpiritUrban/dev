@@ -334,5 +334,15 @@
         "product": "Cheknis (Telegram Mini App)",
         "productSite": "https://github.com/SpiritUrban/cheknis",
         "aboutProduct": "Telegram Mini App for fast self-calibration and current orientation."
+    },
+    {
+        "year": "2026",
+        "years": "2026",
+        "title": "Full Stack Developer",
+        "company": "Own",
+        "technologies": "JavaScript, TypeScript, SVG, JSON, esbuild, NodeJS",
+        "product": "Keywave (JSON-driven animation editor & player)",
+        "productSite": "https://github.com/SpiritUrban/keywave",
+        "aboutProduct": "JSON-driven 2D animation editor with SVG player for keyframe-based motion and exportable demos."
     }
 ]
