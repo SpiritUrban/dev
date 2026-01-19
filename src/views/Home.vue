@@ -9,7 +9,7 @@
     <div id="container" class="home-container">
 
       <!-- SHEET -->
-      <div class="sheet" style="text-align: center; width: fit-content; z-index: 100; position: relative;">
+      <div class="sheet sheet-tilt sheet-tilt-1" style="text-align: center; width: fit-content; z-index: 100; position: relative;">
         <div class="head">
           <img src="../assets/img/I.png">
           <h2 class="title"> I'm: <strong class="blink">Fullstack JS Developer</strong>
@@ -31,7 +31,7 @@
       <div class="double-sheet">
 
         <!-- SHEET -->
-        <div class="sheet" style="width: fit-content;">
+        <div class="sheet sheet-tilt sheet-tilt-2" style="width: fit-content;">
           <h2 style="text-align: center;"> PERSONAL INFORMATION</h2>
           <br>
 
@@ -75,7 +75,7 @@
 
 
         <!-- SHEET -->
-        <div class="sheet" style="width: fit-content;">
+        <div class="sheet sheet-tilt sheet-tilt-3" style="width: fit-content;">
           <h2 style="text-align: center;"> EDUCATION AND TRAINING </h2>
           <br>
           <v-table density="compact">
@@ -691,6 +691,30 @@ strong {
       max-width: 30rem;
     }
   }
+}
+
+.sheet-tilt {
+  transform-style: preserve-3d;
+  transform-origin: center;
+  transition: transform 0.6s ease, box-shadow 0.6s ease;
+  box-shadow: 0 18px 60px rgb(0 0 0 / 35%);
+}
+
+.sheet-tilt-1 {
+  transform: perspective(1200px) rotateY(-10deg) rotateX(4deg);
+}
+
+.sheet-tilt-2 {
+  transform: perspective(1200px) rotateY(9deg) rotateX(-4deg);
+}
+
+.sheet-tilt-3 {
+  transform: perspective(1200px) rotateY(-8deg) rotateX(5deg);
+}
+
+.sheet-tilt:hover {
+  transform: perspective(1200px) rotateY(0deg) rotateX(0deg);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
 }
 
 @media screen and (max-width: 600px) {
