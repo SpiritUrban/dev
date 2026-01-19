@@ -309,6 +309,8 @@ let scene;
 let renderer;
 let containerEl;
 let animationFrameId;
+let lineMesh;
+const startTime = performance.now();
 
 onBeforeUnmount(() => {
   if (animationFrameId != null) {
@@ -348,28 +350,36 @@ function init() {
     color: 0xffffff,
     program: function (context) {
       context.beginPath();
-      context.arc(0, 0, 0.5, 0, PI2, true);
+      context.arc(0, 0, 0.6, 0, PI2, true);
       context.fill();
     }
   });
 
   const geometry = new THREE.Geometry();
 
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < 160; i++) {
     particle = new THREE.Sprite(material);
     particle.position.x = Math.random() * 2 - 1;
     particle.position.y = Math.random() * 2 - 1;
     particle.position.z = Math.random() * 2 - 1;
     particle.position.normalize();
-    particle.position.multiplyScalar(Math.random() * 10 + 450);
-    particle.scale.x = particle.scale.y = 10;
+    particle.position.multiplyScalar(Math.random() * 20 + 420);
+    const scale = Math.random() * 10 + 4;
+    particle.scale.x = particle.scale.y = scale;
+    const hue = 185 + Math.random() * 30;
+    const light = 55 + Math.random() * 20;
+    particle.material.color.setStyle(`hsl(${hue}, 90%, ${light}%)`);
     scene.add(particle);
     geometry.vertices.push(particle.position);
   }
 
   // lines
-  const line = new THREE.Line(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5 }));
-  scene.add(line);
+  lineMesh = new THREE.Line(geometry, new THREE.LineBasicMaterial({
+    color: 0x8debdc,
+    opacity: 0.35,
+    transparent: true,
+  }));
+  scene.add(lineMesh);
 
   document.addEventListener('mousemove', onDocumentMouseMove, false);
   document.addEventListener('touchstart', onDocumentTouchStart, false);
@@ -415,9 +425,20 @@ function animate() {
 }
 
 function render() {
-  camera.position.x += (mouseX - camera.position.x) * .05;
-  camera.position.y += (- mouseY + 200 - camera.position.y) * .05;
+  const time = (performance.now() - startTime) * 0.0002;
+  const driftX = Math.sin(time * 0.9) * 120;
+  const driftY = Math.cos(time * 0.7) * 90;
+
+  camera.position.x += ((mouseX + driftX) - camera.position.x) * 0.035;
+  camera.position.y += ((-mouseY + 160 + driftY) - camera.position.y) * 0.035;
+  camera.position.z = 110 + Math.sin(time * 0.6) * 18;
   camera.lookAt(scene.position);
+  scene.rotation.y = Math.sin(time * 0.4) * 0.08;
+  scene.rotation.x = Math.cos(time * 0.5) * 0.05;
+  if (lineMesh) {
+    lineMesh.rotation.y = -scene.rotation.y * 0.6;
+    lineMesh.rotation.x = -scene.rotation.x * 0.6;
+  }
   renderer.render(scene, camera);
 }
 
