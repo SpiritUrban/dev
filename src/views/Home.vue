@@ -582,6 +582,12 @@ strong {
     color: gray;
   }
 
+  .v-table.v-table--density-compact .v-table__wrapper > table > tbody > tr > td {
+    padding-top: 0.6rem !important;
+    padding-bottom: 0.6rem !important;
+    line-height: 1.35;
+  }
+
   a.an-1 {
     color: #d2a07c;
     border-radius: 0.5rem;
